@@ -1,0 +1,36 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "oai-search-pipeline"
+requires-python = ">=3.12"
+version = "0.1.0"
+description = "Harvests research metadata via OAI-PMH, maps Dublin Core/DataCite to a common model, and indexes it in Elasticsearch for full-text search."
+readme = "README.md"
+dependencies = ["httpx", "elasticsearch>=9,<10"]
+
+
+[project.scripts]
+oaisearch = "oaisearch.cli:main"
+
+[project.optional-dependencies]
+dev = ["pytest >= 9", "pytest-cov", "ruff", "mypy"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/oaisearch"]
+
+[tool.ruff]
+line-length = 88 
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E","F","I","UP","B"]
+
+[tool.pytest]
+minversion = "9.0"
+addopts = ["-ra", "-q", "--cov=oaisearch"]
+testpaths = ["tests"]
+
+[tool.mypy]
+strict = true
