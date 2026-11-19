@@ -4,6 +4,8 @@ from pathlib import Path
 
 import httpx
 
+from oaisearch.errors import OAIError
+
 NAMESPACE = {"oai": "http://www.openarchives.org/OAI/2.0/"}
 
 
@@ -38,6 +40,18 @@ def count_records(content: bytes) -> int:
     return count_record
 
 
+def check_oai_error(content: bytes) -> None:
+    root = ET.fromstring(content)
+    oai_error = root.find(".//oai:error", NAMESPACE)
+    if oai_error is None:
+        return
+    error_code = oai_error.get("code", "unknown")
+    error_message = oai_error.text
+    if error_message is None:
+        error_message = ""
+    raise OAIError(error_code, error_message.strip())
+
+
 def harvest(
     client: httpx.Client,
     endpoint: str,
@@ -53,6 +67,13 @@ def harvest(
     params = {"verb": verb, "metadataPrefix": metadata_prefix, "set": set_spec}
     while True:
         content = fetch_data(client, endpoint, params)
+        try:
+            check_oai_error(content)
+        except OAIError as err:
+            if err.code == "noRecordsMatch":
+                return 0
+            else:
+                raise
         page_number += 1
         file = save_data(content, out_dir, page_number)
         print(file)
