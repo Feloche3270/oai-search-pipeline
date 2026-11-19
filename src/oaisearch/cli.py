@@ -1,2 +1,3 @@
-def main():
-    print("Hello")
+def main() -> str:
+    p = "Hello"
+    return p
