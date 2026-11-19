@@ -1,9 +1,10 @@
+import time
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
 import httpx
 
-OAI_NAMESPACE = {"oai": "http://www.openarchives.org/OAI/2.0/"}
+NAMESPACE = {"oai": "http://www.openarchives.org/OAI/2.0/"}
 
 
 def fetch_data(client: httpx.Client, endpoint: str, params: dict[str, str]) -> bytes:
@@ -21,29 +22,57 @@ def save_data(content: bytes, out_dir: Path, page_number: int) -> Path:
 
 def parse_resumption_token(content: bytes) -> str | None:
     root = ET.fromstring(content)
-    resumption_token = root.find(".//oai:resumptionToken", OAI_NAMESPACE)
+    resumption_token = root.find(".//oai:resumptionToken", NAMESPACE)
     if resumption_token is None:
         return None
-    elif resumption_token.text is None or resumption_token.text.strip() == "":
+    token = resumption_token.text
+    if token is None or token.strip() == "":
         return None
-    return resumption_token.text.strip()
+    return token.strip()
+
+
+def count_records(content: bytes) -> int:
+    root = ET.fromstring(content)
+    records = root.findall(".//oai:record", NAMESPACE)
+    count_record = len(records)
+    return count_record
+
+
+def harvest(
+    client: httpx.Client,
+    endpoint: str,
+    metadata_prefix: str,
+    set_spec: str,
+    out_dir: Path,
+    max_records: int,
+    delay: float = 1.0,
+) -> int:
+    verb = "ListRecords"
+    page_number = 0
+    total_records = 0
+    params = {"verb": verb, "metadataPrefix": metadata_prefix, "set": set_spec}
+    while True:
+        content = fetch_data(client, endpoint, params)
+        page_number += 1
+        file = save_data(content, out_dir, page_number)
+        print(file)
+        total_records += count_records(content)
+        resumption_token = parse_resumption_token(content)
+        if resumption_token is None or total_records >= max_records:
+            break
+        params = {"verb": verb, "resumptionToken": resumption_token}
+        time.sleep(delay)
+    return total_records
 
 
 if __name__ == "__main__":
-    verb = "ListRecords"
     metadata_prefix = "oai_dc"
     set_spec = "user-waterlat-gobacit"
     out_dir = Path("data") / metadata_prefix / set_spec
     headers = {
         "user-agent": "oai-search/0.1 (+https://github.com/Feloche3270/oai-search-pipeline)"
     }
-    params = {"verb": verb, "metadataPrefix": metadata_prefix, "set": set_spec}
     endpoint = "https://zenodo.org/oai2d"
-    page_number = 1
 
     with httpx.Client(headers=headers, timeout=60.0) as client:
-        content = fetch_data(client, endpoint, params)
-        path = save_data(content, out_dir, page_number)
-    print(path)
-    resumption_token = parse_resumption_token(content)
-    print(resumption_token)
+        harvest(client, endpoint, metadata_prefix, set_spec, out_dir, 500)
