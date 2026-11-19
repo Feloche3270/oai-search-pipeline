@@ -1,6 +1,9 @@
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 import httpx
+
+OAI_NAMESPACE = {"oai": "http://www.openarchives.org/OAI/2.0/"}
 
 
 def fetch_data(client: httpx.Client, endpoint: str, params: dict[str, str]) -> bytes:
@@ -14,6 +17,16 @@ def save_data(content: bytes, out_dir: Path, page_number: int) -> Path:
     page_path = out_dir / f"page_{page_number:04d}.xml"
     page_path.write_bytes(content)
     return page_path
+
+
+def parse_resumption_token(content: bytes) -> str | None:
+    root = ET.fromstring(content)
+    resumption_token = root.find(".//oai:resumptionToken", OAI_NAMESPACE)
+    if resumption_token is None:
+        return None
+    elif resumption_token.text is None or resumption_token.text.strip() == "":
+        return None
+    return resumption_token.text.strip()
 
 
 if __name__ == "__main__":
@@ -32,3 +45,5 @@ if __name__ == "__main__":
         content = fetch_data(client, endpoint, params)
         path = save_data(content, out_dir, page_number)
     print(path)
+    resumption_token = parse_resumption_token(content)
+    print(resumption_token)
