@@ -8,6 +8,9 @@ from oaisearch.errors import HarvestError, OAIError
 
 NAMESPACE = {"oai": "http://www.openarchives.org/OAI/2.0/"}
 RETRY_STATUSES = {429, 500, 502, 503, 504}
+DEFAULT_HEADER = {
+    "user-agent": "oai-search/0.1 (+https://github.com/Feloche3270/oai-search-pipeline)"
+}
 
 
 def fetch_data(client: httpx.Client, endpoint: str, params: dict[str, str]) -> bytes:
@@ -116,32 +119,16 @@ def harvest(
             check_oai_error(content)
         except OAIError as err:
             if err.code == "noRecordsMatch":
-                print(total_records)
                 return total_records
             raise
         except ET.ParseError:
             raise HarvestError("Response is not valid XML.") from None
         page_number += 1
-        file = save_data(content, out_dir, page_number)
-        print(file)
+        save_data(content, out_dir, page_number)
         total_records += count_records(content)
         resumption_token = parse_resumption_token(content)
         if resumption_token is None or total_records >= max_records:
             break
         params = {"verb": verb, "resumptionToken": resumption_token}
         time.sleep(delay)
-    print(total_records)
     return total_records
-
-
-if __name__ == "__main__":
-    metadata_prefix = "oai_dc"
-    set_spec = "user-waterlat-gobacit"
-    out_dir = Path("data") / metadata_prefix / set_spec
-    headers = {
-        "user-agent": "oai-search/0.1 (+https://github.com/Feloche3270/oai-search-pipeline)"
-    }
-    endpoint = "https://zenodo.org/oai2d"
-
-    with httpx.Client(headers=headers, timeout=60.0) as client:
-        harvest(client, endpoint, metadata_prefix, set_spec, out_dir, 500)
