@@ -10,9 +10,13 @@ NAMESPACE = {"oai": "http://www.openarchives.org/OAI/2.0/"}
 
 
 def fetch_data(client: httpx.Client, endpoint: str, params: dict[str, str]) -> bytes:
-    response_dc = client.get(endpoint, params=params)
-    response_dc.raise_for_status()
-    return response_dc.content
+    response = client.get(endpoint, params=params)
+    # OAI erros normally come back with HTTP 200 as the OAI-PMH spec requires
+    # but Zenodo doesn't follow it and sends OAI error with 422 status.
+    if response.status_code == 422:
+        return response.content
+    response.raise_for_status()
+    return response.content
 
 
 def save_data(content: bytes, out_dir: Path, page_number: int) -> Path:
@@ -71,9 +75,8 @@ def harvest(
             check_oai_error(content)
         except OAIError as err:
             if err.code == "noRecordsMatch":
-                return 0
-            else:
-                raise
+                return total_records
+            raise
         page_number += 1
         file = save_data(content, out_dir, page_number)
         print(file)
