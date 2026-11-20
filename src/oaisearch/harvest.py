@@ -4,14 +4,15 @@ from pathlib import Path
 
 import httpx
 
-from oaisearch.errors import OAIError
+from oaisearch.errors import HarvestError, OAIError
 
 NAMESPACE = {"oai": "http://www.openarchives.org/OAI/2.0/"}
+RETRY_STATUSES = {429, 500, 502, 503, 504}
 
 
 def fetch_data(client: httpx.Client, endpoint: str, params: dict[str, str]) -> bytes:
     response = client.get(endpoint, params=params)
-    # OAI erros normally come back with HTTP 200 as the OAI-PMH spec requires
+    # OAI errors normally come back with HTTP 200 as the OAI-PMH spec requires
     # but Zenodo doesn't follow it and sends OAI error with 422 status.
     if response.status_code == 422:
         return response.content
@@ -56,6 +57,46 @@ def check_oai_error(content: bytes) -> None:
     raise OAIError(error_code, error_message.strip())
 
 
+def parse_retry_after(retry_after: str | None) -> float | None:
+    if retry_after is None:
+        return None
+    try:
+        return float(retry_after)
+    except ValueError:
+        return None
+
+
+def fetch_with_retry(
+    client: httpx.Client,
+    endpoint: str,
+    params: dict[str, str],
+    max_attempts: int = 3,
+    backoff: float = 1.0,
+) -> bytes:
+    for attempt in range(max_attempts):
+        wait = backoff * 2**attempt
+        try:
+            return fetch_data(client, endpoint, params)
+        except httpx.HTTPStatusError as err:
+            if err.response.status_code not in RETRY_STATUSES:
+                raise
+            if attempt == max_attempts - 1:
+                raise
+            if err.response.status_code == 429:
+                retry_after = err.response.headers.get("Retry-After")
+                retry_after_seconds = parse_retry_after(retry_after)
+                if retry_after_seconds is not None:
+                    wait = retry_after_seconds
+            reason = f"HTTP {err.response.status_code}"
+        except httpx.TransportError as err:
+            if attempt == max_attempts - 1:
+                raise
+            reason = str(err)
+        print(f"Retrying in {wait}s ({reason})")
+        time.sleep(wait)
+    raise RuntimeError("Unreachable")
+
+
 def harvest(
     client: httpx.Client,
     endpoint: str,
@@ -70,13 +111,16 @@ def harvest(
     total_records = 0
     params = {"verb": verb, "metadataPrefix": metadata_prefix, "set": set_spec}
     while True:
-        content = fetch_data(client, endpoint, params)
+        content = fetch_with_retry(client, endpoint, params)
         try:
             check_oai_error(content)
         except OAIError as err:
             if err.code == "noRecordsMatch":
+                print(total_records)
                 return total_records
             raise
+        except ET.ParseError:
+            raise HarvestError("Response is not valid XML.") from None
         page_number += 1
         file = save_data(content, out_dir, page_number)
         print(file)
@@ -86,6 +130,7 @@ def harvest(
             break
         params = {"verb": verb, "resumptionToken": resumption_token}
         time.sleep(delay)
+    print(total_records)
     return total_records
 
 

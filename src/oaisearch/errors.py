@@ -5,3 +5,7 @@ class OAIError(Exception):
         self.message = message
         self.code = code
         super().__init__(f"{self.code}: {self.message}")
+
+
+class HarvestError(Exception):
+    """Exception raised for an invalid XML response"""
