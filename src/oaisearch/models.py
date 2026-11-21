@@ -1,8 +1,11 @@
 from dataclasses import dataclass, field
 
+
 @dataclass
 class Record:
-    """Common metadata model, independent of the source format (Dublin Core, DataCite)"""
+    """Common metadata model, independent of the source
+    format (Dublin Core, DataCite)"""
+
     identifier: str
     title: str
     source: str

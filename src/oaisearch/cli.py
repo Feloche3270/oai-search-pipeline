@@ -11,7 +11,8 @@ from oaisearch.harvest import DEFAULT_HEADER, harvest
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="oaisearch",
-        description="Harvest research metadata over OAI-PMH and search it with Elasticsearch",
+        description="Harvest research metadata over OAI-PMH and "
+        "search it with Elasticsearch",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
     harvest_parser = subparsers.add_parser("harvest", help="Harvest data")
