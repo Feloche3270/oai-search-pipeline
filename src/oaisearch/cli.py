@@ -2,10 +2,51 @@ import argparse
 import sys
 from pathlib import Path
 
+import elasticsearch
 import httpx
 
-from oaisearch.errors import HarvestError, OAIError
+from oaisearch.errors import EsConnectionError, HarvestError, OAIError
 from oaisearch.harvest import DEFAULT_HEADER, harvest
+from oaisearch.index import count_documents, create_index, get_client, index_records
+from oaisearch.transform import load_records
+
+
+def cmd_harvest(args: argparse.Namespace) -> int:
+    try:
+        out_dir = args.out / args.prefix / args.set_spec
+        with httpx.Client(headers=DEFAULT_HEADER, timeout=60.0) as client:
+            total = harvest(
+                client, args.endpoint, args.prefix, args.set_spec, out_dir, args.max
+            )
+    except (OAIError, HarvestError, httpx.HTTPError) as err:
+        print(f"oaisearch: error: {err}", file=sys.stderr)
+        return 1
+    print(f"Harvested {total} records into {out_dir}")
+    return 0
+
+
+def cmd_index(args: argparse.Namespace) -> int:
+    try:
+        records = load_records(args.folder, args.source)
+        if not records:
+            print(f"No records found in {args.folder}", file=sys.stderr)
+            return 1
+        es = get_client(args.es_url)
+        index = create_index(es, args.index)
+        indexed_records = index_records(es, args.index, records)
+        count = count_documents(es, args.index)
+    except (EsConnectionError, elasticsearch.ApiError) as err:
+        print(f"oaisearch: error: {err}", file=sys.stderr)
+        return 1
+    if index:
+        print(f"Created index '{args.index}'")
+    else:
+        print(f"Index '{args.index}' already exists")
+    print(
+        f"Indexed {indexed_records} records into '{args.index}'"
+        + f" ({count} documents in index)"
+    )
+    return 0
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -44,19 +85,39 @@ def build_parser() -> argparse.ArgumentParser:
     harvest_parser.add_argument(
         "--out", type=Path, default=Path("data"), help="Output folder for raw XML pages"
     )
+    harvest_parser.set_defaults(func=cmd_harvest)
+
+    index_parser = subparsers.add_parser("index", help="Index data")
+    index_parser.add_argument(
+        "--folder",
+        type=Path,
+        required=True,
+        help="Folder of harvested XML pages, e.g. data/oai_dc/<set>",
+    )
+    index_parser.add_argument(
+        "--source",
+        type=str,
+        default="zenodo",
+        help="Repository name stored with each record (default: zenodo)",
+    )
+    index_parser.add_argument(
+        "--index", type=str, default="records", help="Elasticsearch index name"
+    )
+    index_parser.add_argument(
+        "--es-url",
+        type=str,
+        default="http://localhost:9200",
+        help="Elasticsearch URL",
+        dest="es_url",
+    )
+    index_parser.set_defaults(func=cmd_index)
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
-    out_dir = args.out / args.prefix / args.set_spec
-    try:
-        with httpx.Client(headers=DEFAULT_HEADER, timeout=60.0) as client:
-            total = harvest(
-                client, args.endpoint, args.prefix, args.set_spec, out_dir, args.max
-            )
-    except (OAIError, HarvestError, httpx.HTTPError) as err:
-        print(f"oaisearch: error: {err}", file=sys.stderr)
-        return 1
-    print(f"Harvested {total} records into {out_dir}")
+    if args.command == "harvest":
+        return cmd_harvest(args)
+    elif args.command == "index":
+        return cmd_index(args)
     return 0
