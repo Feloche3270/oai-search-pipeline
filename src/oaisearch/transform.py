@@ -1,7 +1,6 @@
 import html
 import re
 import xml.etree.ElementTree as ET
-
 from pathlib import Path
 
 from oaisearch.models import Record
