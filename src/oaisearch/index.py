@@ -1,7 +1,6 @@
 from collections.abc import Iterator
 from dataclasses import asdict
 from typing import Any
-from pathlib import Path
 
 import elasticsearch
 from elasticsearch import Elasticsearch
@@ -9,7 +8,6 @@ from elasticsearch.helpers import bulk
 
 from oaisearch.errors import EsConnectionError
 from oaisearch.models import Record
-from oaisearch.transform import load_records
 
 DEFAULT_ES_URL = "http://localhost:9200"
 DEFAULT_INDEX = "records"
