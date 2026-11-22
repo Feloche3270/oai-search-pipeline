@@ -9,3 +9,7 @@ class OAIError(Exception):
 
 class HarvestError(Exception):
     """Exception raised for an invalid XML response"""
+
+
+class EsConnectionError(Exception):
+    """Exception raised when Elasticsearch isn't running"""
