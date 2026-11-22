@@ -5,8 +5,8 @@ from pathlib import Path
 import httpx
 
 from oaisearch.errors import HarvestError, OAIError
+from oaisearch.namespaces import NAMESPACES
 
-NAMESPACE = {"oai": "http://www.openarchives.org/OAI/2.0/"}
 RETRY_STATUSES = {429, 500, 502, 503, 504}
 DEFAULT_HEADER = {
     "user-agent": "oai-search/0.1 (+https://github.com/Feloche3270/oai-search-pipeline)"
@@ -32,7 +32,7 @@ def save_data(content: bytes, out_dir: Path, page_number: int) -> Path:
 
 def parse_resumption_token(content: bytes) -> str | None:
     root = ET.fromstring(content)
-    resumption_token = root.find(".//oai:resumptionToken", NAMESPACE)
+    resumption_token = root.find(".//oai:resumptionToken", NAMESPACES)
     if resumption_token is None:
         return None
     token = resumption_token.text
@@ -43,14 +43,14 @@ def parse_resumption_token(content: bytes) -> str | None:
 
 def count_records(content: bytes) -> int:
     root = ET.fromstring(content)
-    records = root.findall(".//oai:record", NAMESPACE)
+    records = root.findall(".//oai:record", NAMESPACES)
     count_record = len(records)
     return count_record
 
 
 def check_oai_error(content: bytes) -> None:
     root = ET.fromstring(content)
-    oai_error = root.find(".//oai:error", NAMESPACE)
+    oai_error = root.find(".//oai:error", NAMESPACES)
     if oai_error is None:
         return
     error_code = oai_error.get("code", "unknown")
