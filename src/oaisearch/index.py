@@ -1,7 +1,15 @@
+from collections.abc import Iterator
+from dataclasses import asdict
+from typing import Any
+from pathlib import Path
+
 import elasticsearch
 from elasticsearch import Elasticsearch
+from elasticsearch.helpers import bulk
 
 from oaisearch.errors import EsConnectionError
+from oaisearch.models import Record
+from oaisearch.transform import load_records
 
 DEFAULT_ES_URL = "http://localhost:9200"
 DEFAULT_INDEX = "records"
@@ -46,6 +54,20 @@ def create_index(es: Elasticsearch, index: str) -> bool:
     return True
 
 
-if __name__ == "__main__":
-    es = get_client()
-    print(create_index(es, DEFAULT_INDEX))
+def build_actions(records: list[Record], index: str) -> Iterator[dict[str, Any]]:
+    for record in records:
+        document = asdict(record)
+        yield {"_index": index, "_id": record.identifier, "_source": document}
+
+
+def count_documents(es: Elasticsearch, index: str) -> int:
+    response = es.count(index=index)
+    count = int(response["count"])
+    return count
+
+
+def index_records(es: Elasticsearch, index: str, records: list[Record]) -> int:
+    actions = build_actions(records, index)
+    successes, _ = bulk(es, actions, raise_on_error=True)
+    es.indices.refresh(index=index)
+    return successes
