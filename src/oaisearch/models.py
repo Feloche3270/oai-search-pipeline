@@ -15,3 +15,11 @@ class Record:
     description: str | None = None
     doi: str | None = None
     language: str | None = None
+
+
+@dataclass
+class SearchResult:
+    """Model for the result of a search call"""
+
+    score: float
+    record: Record
