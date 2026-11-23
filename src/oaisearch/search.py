@@ -47,3 +47,23 @@ def search(
         )
         search_results.append(search_result)
     return (response["hits"]["total"]["value"], search_results)
+
+
+def format_result(rank: int, result: SearchResult) -> str:
+    creators = ";".join(result.record.creators[:2])
+    lang = "No lang"
+    publication_year = "Unknown publication year"
+    doi = "Unknown DOI"
+    if len(result.record.creators) > 2:
+        creators += " et al."
+    elif len(creators) == 0:
+        creators = "Unknown creators"
+    if result.record.language is not None:
+        lang = result.record.language
+    if result.record.publication_year is not None:
+        publication_year = str(result.record.publication_year)
+    if result.record.doi is not None:
+        doi = result.record.doi
+    message = f"{rank}. [{result.score:.4f}] {result.record.title}"
+    message += f"({publication_year})\n{creators} - {lang} - {doi}"
+    return message
