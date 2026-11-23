@@ -8,6 +8,7 @@ import httpx
 from oaisearch.errors import EsConnectionError, HarvestError, OAIError
 from oaisearch.harvest import DEFAULT_HEADER, harvest
 from oaisearch.index import count_documents, create_index, get_client, index_records
+from oaisearch.search import build_query, format_result, search
 from oaisearch.transform import load_records
 
 
@@ -46,6 +47,31 @@ def cmd_index(args: argparse.Namespace) -> int:
         f"Indexed {indexed_records} records into '{args.index}'"
         + f" ({count} documents in index)"
     )
+    return 0
+
+
+def cmd_search(args: argparse.Namespace) -> int:
+    try:
+        es = get_client(args.es_url)
+        query = build_query(
+            text=args.text,
+            from_year=args.from_year,
+            subject=args.subject,
+            subject_exact=args.subject_exact,
+            language=args.language,
+            all_words=args.all_words,
+        )
+        total, hits = search(es, args.index, query, args.size)
+    except (EsConnectionError, elasticsearch.ApiError) as err:
+        print(f"oaisearch: error: {err}", file=sys.stderr)
+        return 1
+    if not hits:
+        print(f'No results for "{args.text}"')
+        return 0
+    print(f"Found {total} results, showing {len(hits)}")
+    for rank, hit in enumerate(hits, start=1):
+        result = format_result(rank, hit)
+        print(result)
     return 0
 
 
@@ -111,6 +137,46 @@ def build_parser() -> argparse.ArgumentParser:
         dest="es_url",
     )
     index_parser.set_defaults(func=cmd_index)
+
+    search_parser = subparsers.add_parser("search", help="Search data")
+    search_parser.add_argument("text", type=str, help="Words to search for")
+    search_parser.add_argument(
+        "--from-year",
+        type=int,
+        help="Only records published in or after this year",
+        dest="from_year",
+    )
+    exclusive_group = search_parser.add_mutually_exclusive_group()
+    exclusive_group.add_argument(
+        "--subject", type=str, help="Filter on a subject (tolerant match)"
+    )
+    exclusive_group.add_argument(
+        "--subject-exact",
+        type=str,
+        help="Filter on an exact subject (case-sensitive)",
+        dest="subject_exact",
+    )
+    search_parser.add_argument(
+        "--language", type=str, help="Filter on a language code, e.g. spa"
+    )
+    search_parser.add_argument(
+        "--all-words",
+        action="store_true",
+        help="Require all words, in any order (default: 67% of them)",
+    )
+    search_parser.add_argument(
+        "--size", type=int, default=10, help="Number of results to show (default: 10)"
+    )
+    search_parser.add_argument(
+        "--index", type=str, default="records", help="Elasticsearch index name"
+    )
+    search_parser.add_argument(
+        "--es-url",
+        type=str,
+        default="http://localhost:9200",
+        help="Elasticsearch URL",
+        dest="es_url",
+    )
     return parser
 
 
@@ -120,4 +186,6 @@ def main(argv: list[str] | None = None) -> int:
         return cmd_harvest(args)
     elif args.command == "index":
         return cmd_index(args)
+    elif args.command == "search":
+        return cmd_search(args)
     return 0
