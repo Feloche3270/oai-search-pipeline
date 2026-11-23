@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?xml-stylesheet type="text/xsl" href="/static/oai2.xsl"?>
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+    <responseDate>2026-11-20T15:21:12Z</responseDate>
+    <request resumptionToken=".eJyNjdFugjAARf-lz7pQtExIfJgb7UIENxhU-mJKW5FRxACuZMZ_H9kHLLtP5-Hk3BvolZLAsx7cFVw9OhZyIUK24yxn4MJLBbwJasO7sgfebZIH4IFrr7q54YPqNB_mZVtwUQ1gBho1cMkH_tapYzVOYsurgxTgPgO96FqtD9V0BTDR19weISPZMbfdqyTZUmIXSqrrlzOGbB-gjJx0UTMtSdQ-jbkJobYFRSHFOInh6Z36epGQuNlhHD9Ne45xmmwEFZ-5iV9TQ-sxFQSG3MosZsNj5F8CObJF8h1vVHPKowwnWzrSYs8uO4q2xYc-_3byeRSUS6oa3IcEOaKGqTrrr72VGukbe-fDgP27Y_3dMes1uP8AhVV9Nw.awBlZw.9AV4-4-3ZiUj_YeZnzKLofw7Wx4" verb="ListRecords">https://zenodo.org/oai2d</request>
+    <ListRecords>
+        <record>
+        <header>
+            <identifier>oai:zenodo.org:7510637</identifier>
+            <datestamp>2024-07-15T11:07:27Z</datestamp>
+            <setSpec>user-waterlat-gobacit</setSpec>
+        </header>
+        <metadata>
+            <oai_dc:dc xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+            <dc:creator>Castro, Jose Esteban (General Editor)</dc:creator>
+            <dc:creator>Rodríguez Sánchez, Antonio</dc:creator>
+            <dc:date>2017-12-16</dc:date>
+            <dc:description>&amp;lt;p&amp;gt;ATERLAT-GOBACIT Working Papers (ISSN 2056-4864 - online) Vol. 4 No 3. (www.waterlat.org).&amp;lt;/p&amp;gt;
+
+    &amp;lt;p&amp;gt;This issue of the Working Papers was developed by members of the WATERLAT-GOBACIT Network&amp;rsquo;s Thematic Area 6, Hydrosocial Basins, Territories, and Spaces (http://waterlat.org/thematic-areas/ta6/). It&amp;nbsp;focuses on one of the main topics addressed by TA6, which is the ongoing academic and political debate about the concept of &amp;ldquo;basin&amp;rdquo;, which has become the object of severe criticism in several areas of public policy related to water management. From different standpoints, the papers discuss the commonalities and differences between the concepts of &amp;ldquo;hidrosocial&amp;rdquo; basins, territories, spaces, and landscapes, a topic particularly debated in human and political geography but also in the broader interdisciplinary field of political ecology. The last two papers also offer an empirical discussion about the continued relevance of the concept of &amp;ldquo;river basin&amp;rdquo; in the Iberian and French traditions of water management, and explore some of the associated policy implications, contradictions, and conceptual cleavages.&amp;lt;/p&amp;gt;</dc:description>
+            <dc:identifier>https://doi.org/10.5281/zenodo.7510637</dc:identifier>
+            <dc:identifier>oai:zenodo.org:7510637</dc:identifier>
+            <dc:language>eng</dc:language>
+            <dc:publisher>Zenodo</dc:publisher>
+            <dc:relation>https://zenodo.org/communities/waterlat-gobacit/</dc:relation>
+            <dc:relation>https://doi.org/10.5281/zenodo.7510636</dc:relation>
+            <dc:rights>info:eu-repo/semantics/openAccess</dc:rights>
+            <dc:rights>Creative Commons Attribution 4.0 International</dc:rights>
+            <dc:rights>https://creativecommons.org/licenses/by/4.0/legalcode</dc:rights>
+            <dc:subject>hydrosocial cycle</dc:subject>
+            <dc:subject>hydrographic basins</dc:subject>
+            <dc:subject>hydrosocial basins</dc:subject>
+            <dc:subject>landscape</dc:subject>
+            <dc:subject>territory</dc:subject>
+            <dc:subject>space</dc:subject>
+            <dc:subject>political ecology</dc:subject>
+            <dc:subject>political economy</dc:subject>
+            <dc:subject>Mexico</dc:subject>
+            <dc:subject>Iberian Peninsula</dc:subject>
+            <dc:subject>France</dc:subject>
+            <dc:title>Hydro-social cycles and processes: theoretical and methodological debates about basins, spaces, and territories</dc:title>
+            <dc:type>info:eu-repo/semantics/article</dc:type>
+            </oai_dc:dc>
+        </metadata>
+        </record>
+        <resumptionToken expirationDate="2026-11-20T15:23:12Z" cursor="150" completeListSize="181"/>
+    </ListRecords>
+</OAI-PMH>

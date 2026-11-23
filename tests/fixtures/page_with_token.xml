@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?xml-stylesheet type="text/xsl" href="/static/oai2.xsl"?>
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+    <responseDate>2026-11-20T15:21:06Z</responseDate>
+    <request verb="ListRecords" set="user-waterlat-gobacit" metadataPrefix="oai_dc">https://zenodo.org/oai2d</request>
+    <ListRecords>
+        <record>
+            <header>
+            <identifier>oai:zenodo.org:4313230</identifier>
+            <datestamp>2024-07-19T12:34:46Z</datestamp>
+            <setSpec>user-waterlat-gobacit</setSpec>
+            </header>
+            <metadata>
+            <oai_dc:dc xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+                <dc:creator>Fracchia Figueiredo, Myriam</dc:creator>
+                <dc:date>2020-03-31</dc:date>
+                <dc:description>&amp;lt;p&amp;gt;The growing process of violence in Mexico 2006 that is a result of the interpenetration of&amp;nbsp;what we call &amp;ldquo;criminal order&amp;rdquo; and &amp;ldquo;legal order&amp;rdquo; in the construction of the drug trafficking&amp;nbsp;monopoly, since at least 2006, tends to hide the historical process of selective&amp;nbsp;extermination of social activists, including environmental activists. This article presents&amp;nbsp;preliminary research results covering events of selective extermination recorded by&amp;nbsp;press between January 2017 and April 2019. The objective of the paper is to make&amp;nbsp;visible some characteristics of the process of violence that causes the gravest human&amp;nbsp;costs &amp;ndash; death, disappearance, or injuries, including torture and rape &amp;ndash; suffered by those&amp;nbsp;actors involved in struggles over water, land, forests or to prevent the construction of&amp;nbsp;megaprojects, including mining, which affect the collective rights of their communities.&amp;lt;/p&amp;gt;</dc:description>
+                <dc:identifier>https://doi.org/10.5281/zenodo.4313230</dc:identifier>
+                <dc:identifier>oai:zenodo.org:4313230</dc:identifier>
+                <dc:language>spa</dc:language>
+                <dc:publisher>Zenodo</dc:publisher>
+                <dc:relation>https://zenodo.org/communities/waterlat-gobacit/</dc:relation>
+                <dc:relation>https://doi.org/10.5281/zenodo.4313229</dc:relation>
+                <dc:rights>info:eu-repo/semantics/openAccess</dc:rights>
+                <dc:rights>Creative Commons Attribution 4.0 International</dc:rights>
+                <dc:rights>https://creativecommons.org/licenses/by/4.0/legalcode</dc:rights>
+                <dc:subject>social conflicts</dc:subject>
+                <dc:subject>selective extermination</dc:subject>
+                <dc:subject>human cost</dc:subject>
+                <dc:subject>environmentalists</dc:subject>
+                <dc:subject>Mexico</dc:subject>
+                <dc:title>The selective extermination of environmental activists in Mexico (January 2017-April 2019) (in Spanish)</dc:title>
+                <dc:type>info:eu-repo/semantics/article</dc:type>
+            </oai_dc:dc>
+            </metadata>
+        </record>
+        <resumptionToken expirationDate="2026-11-20T15:23:07Z" cursor="0" completeListSize="181">.eJyNjdFugjAARf-lz7jQIrqR-KAb7UIENxhU-mJKW5FRxACuZMZ_H9kHLLs5jyfn3kCvlASe_fBoL6C7nC-gs5xAjgUuvFTAQxaoDe_KHni3SR6AB6696maGD6rTfJiVbcFFNQALNGrgkg_8rVPHapzEllcHKcDdAr3oWq0P1XQFMNHXHI2QkeyYo6erJNlc4icoqa5fzhiyfeBm5KSLmmlJonY95iaEGgnqhhTjJIand-prJyFxs8M4Xk97jnGabAQVn7mJX1ND6zEVBIbczmyG4DHyL4EcmZN8xxvVnPIow8mWjrTYs8uOutviQ59_O_ksCso5VQ3uQ-IuRA1TddZfezs10jdo58OA_btj_90xqxW4_wBokH0j.awBlYw.MXHdEUN4cVJnxhQwVhWd_AKOzZQ</resumptionToken>
+    </ListRecords>
+</OAI-PMH>
