@@ -19,7 +19,7 @@
                 <dc:creator>Fracchia Figueiredo, Myriam</dc:creator>
                 <dc:creator>Pelayo Pérez, Mariana Betzabeth</dc:creator>
                 <dc:date>2020-03-31</dc:date>
-                <dc:description>&amp;lt;p&amp;gt;This is the second issue developed by members of the WATERLAT-GOBACIT&amp;nbsp;Network&amp;rsquo;s Thematic Area 10, Water and Violence. Research done by members of this&amp;nbsp;TA focuses on how violence, whether systemic-structural, subjective, symbolic, or in any&amp;nbsp;other of its many forms, has become the key mechanism through which the relations&amp;nbsp;between human beings, and between humans and Nature, are de-structured and&amp;nbsp;reconfigured, and new kinds of relations are created, producing new forms of territorial,&amp;nbsp;social and political power and domination. TA10 aims to explore, examine, and contribute&amp;nbsp;to a better understanding of the often-traumatic experiences emerging from these&amp;nbsp;processes of social reordering, whose consequences of socio-ecological dispossession&amp;nbsp;can be observed in the form of environmental deterioration and destruction of the&amp;nbsp;material basis of life, and most notably in the case of water sources. Its objective is to&amp;nbsp;also contribute towards the development of conceptual and methodological frameworks&amp;nbsp;that place the emphasis on understanding and explaining how the use of violence as&amp;nbsp;a mechanism has an impact in the evolving forms of water politics and management&amp;nbsp;currently being implemented worldwide, particularly looking at the consequences of&amp;nbsp;these processes, as well as at the potential alternatives to confront the rapid increase of&amp;nbsp;inhuman and anti-democratic practices and discourses in the processes of water control&amp;nbsp;and accumulation. Within this framework, the present issue, organized by Dr Karina&amp;nbsp;Kloster, from the Autonomous University of Mexico City (UACM), includes four articles&amp;nbsp;that are the result of ongoing research covering experiences of water-related violences&amp;nbsp;and injustices identified in Brazil, Guatemala, and Mexico. Many of these events are the&amp;nbsp;result of criminal activities carried out by governments&amp;rsquo; security forces, illegal groups,&amp;nbsp;and other violent actors, often working jointly to impose the appropriation of land, water,&amp;nbsp;and other resources belonging to rural, indigenous and peasant communities. The&amp;nbsp;issue is an important contribution to ongoing debates. We wish our readers a fruitful&amp;nbsp;experience.&amp;lt;/p&amp;gt;</dc:description>
+                <dc:description>&amp;lt;p&amp;gt;This is the second issue developed by members of the WATERLAT-GOBACIT&amp;nbsp;Network&amp;rsquo;s Thematic Area 10, Water and Violence.</dc:description>
                 <dc:identifier>https://doi.org/10.5281/zenodo.4312898</dc:identifier>
                 <dc:identifier>oai:zenodo.org:4312898</dc:identifier>
                 <dc:language>spa</dc:language>
@@ -32,12 +32,6 @@
                 <dc:subject>infrastructures</dc:subject>
                 <dc:subject>water politics</dc:subject>
                 <dc:subject>water inequality</dc:subject>
-                <dc:subject>water injustice</dc:subject>
-                <dc:subject>violence</dc:subject>
-                <dc:subject>mega projects</dc:subject>
-                <dc:subject>Brazil</dc:subject>
-                <dc:subject>Guatemala</dc:subject>
-                <dc:subject>Mexico</dc:subject>
                 <dc:title>Water politics, violence, and injustice: experiences from Brazil, Guatemala, and Mexico</dc:title>
                 <dc:type>info:eu-repo/semantics/article</dc:type>
             </oai_dc:dc>
@@ -45,30 +39,19 @@
         </record>
         <record>
             <header>
-            <identifier>oai:zenodo.org:7821771</identifier>
-            <datestamp>2024-07-12T07:56:16Z</datestamp>
+            <identifier>oai:zenodo.org:7508110</identifier>
+            <datestamp>2024-07-15T11:13:22Z</datestamp>
             <setSpec>user-waterlat-gobacit</setSpec>
             </header>
             <metadata>
             <oai_dc:dc xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
-                <dc:creator>Rausch, Gisela Ariana</dc:creator>
-                <dc:date>2023-04-12</dc:date>
-                <dc:identifier>https://doi.org/10.5281/zenodo.7821771</dc:identifier>
-                <dc:identifier>oai:zenodo.org:7821771</dc:identifier>
-                <dc:language>spa</dc:language>
                 <dc:publisher>Zenodo</dc:publisher>
                 <dc:relation>https://zenodo.org/communities/waterlat-gobacit/</dc:relation>
-                <dc:relation>https://doi.org/10.5281/zenodo.7821770</dc:relation>
+                <dc:relation>https://doi.org/10.5281/zenodo.7508109</dc:relation>
                 <dc:rights>info:eu-repo/semantics/openAccess</dc:rights>
                 <dc:rights>Creative Commons Attribution 4.0 International</dc:rights>
                 <dc:rights>https://creativecommons.org/licenses/by/4.0/legalcode</dc:rights>
-                <dc:subject>Middle Parana River Hydroelectric Project</dc:subject>
-                <dc:subject>Parana River</dc:subject>
-                <dc:subject>Paraguay-Parana Waterway</dc:subject>
-                <dc:subject>environmental conflicts</dc:subject>
-                <dc:subject>dams</dc:subject>
-                <dc:subject>hydroenergy</dc:subject>
-                <dc:subject>megaprojects</dc:subject>
+                <dc:title>Administração de bens comuns: governança hídrica em disputa</dc:title>
                 <dc:type>info:eu-repo/semantics/article</dc:type>
             </oai_dc:dc>
             </metadata>

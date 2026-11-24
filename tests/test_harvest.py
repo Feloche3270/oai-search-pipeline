@@ -97,7 +97,6 @@ def test_fetch_with_retry_503():
     assert result == data
 
 
-
 def test_harvest_no_records_match(tmp_path):
     path_file = FIXTURES / "no_records_match.xml"
     data = path_file.read_bytes()
