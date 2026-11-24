@@ -40,6 +40,7 @@ fourth_record = Record(
         " Guatemala, and Mexico"
     ),
     source="fixtures",
+    language="spa",
 )
 
 
@@ -48,6 +49,8 @@ def test_build_query():
     query_with_year = build_query("river", from_year=2020)
     query_all_words = build_query("river", all_words=True)
     subject_exact_query = build_query("river", subject_exact="sediment")
+    subject_query = build_query("river", subject="sediment")
+    language_query = build_query("river", language="spa")
 
     assert simple_query["bool"]["filter"] == []
     assert query_with_year["bool"]["filter"] == [
@@ -60,6 +63,8 @@ def test_build_query():
     assert subject_exact_query["bool"]["filter"] == [
         {"term": {"subjects.keyword": "sediment"}}
     ]
+    assert subject_query["bool"]["filter"] == [{"match": {"subjects": "sediment"}}]
+    assert language_query["bool"]["filter"] == [{"term": {"language": "spa"}}]
 
 
 def test_format_result():
@@ -79,3 +84,4 @@ def test_format_result():
     assert "2020" in text_first_record
     assert "10.5281/zenodo.4312898" in text_first_record
     assert "Unknown creators" in text_fourth_record
+    assert "spa" in text_fourth_record

@@ -1,7 +1,16 @@
+import shutil
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 from oaisearch.models import Record
-from oaisearch.transform import clean_description, extract_doi, extract_year, parse_page
+from oaisearch.transform import (
+    clean_description,
+    extract_doi,
+    extract_year,
+    load_records,
+    parse_page,
+    parse_record,
+)
 
 
 def test_extract_year():
@@ -61,3 +70,61 @@ def test_parse_page():
         title="Administração de bens comuns: governança hídrica em disputa",
         source="fixtures",
     )
+
+
+def test_load_records_with_data(tmp_path):
+    path = Path(__file__).parent / "fixtures/complete_and_missing_fields.xml"
+    path_tmp = tmp_path / "page_0001.xml"
+    shutil.copyfile(path, path_tmp)
+
+    assert len(load_records(tmp_path, "fixtures")) == 2
+
+
+def test_load_record_without_data(tmp_path):
+    assert len(load_records(tmp_path, "fixtures")) == 0
+
+
+def test_parse_record_no_identifier():
+    root_no_identifier = ET.fromstring(
+        """
+        <record xmlns="http://www.openarchives.org/OAI/2.0/">
+            <header>
+            </header>
+            <metadata>
+            <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/">
+            </oai_dc:dc>
+            </metadata>
+        </record>
+    """
+    )
+    assert parse_record(root_no_identifier, "tests") is None
+
+
+def test_parse_record_identifier_no_text():
+    root_identifier_no_text = ET.fromstring(
+        """
+        <record xmlns="http://www.openarchives.org/OAI/2.0/">
+            <header>
+            <identifier></identifier>
+            </header>
+            <metadata>
+            <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/">
+            </oai_dc:dc>
+            </metadata>
+        </record>
+    """
+    )
+    assert parse_record(root_identifier_no_text, "tests") is None
+
+
+def test_parse_record_no_metadata():
+    root_no_metadata = ET.fromstring(
+        """
+        <record xmlns="http://www.openarchives.org/OAI/2.0/">
+            <header>
+            <identifier>oai:zenodo.org:4312898</identifier>
+            </header>
+        </record>
+    """
+    )
+    assert parse_record(root_no_metadata, "tests") is None

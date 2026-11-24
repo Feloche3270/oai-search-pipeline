@@ -3,7 +3,7 @@ from pathlib import Path
 import httpx
 import pytest
 
-from oaisearch.errors import OAIError
+from oaisearch.errors import HarvestError, OAIError
 from oaisearch.harvest import (
     check_oai_error,
     count_records,
@@ -97,6 +97,50 @@ def test_fetch_with_retry_503():
     assert result == data
 
 
+def test_fetch_with_retry_429():
+    requests: list[httpx.Request] = []
+    path_file = FIXTURES / "page_with_token.xml"
+    data = path_file.read_bytes()
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        requests.append(request)
+        if len(requests) == 1:
+            return httpx.Response(429, headers={"Retry-After": "0"})
+        if len(requests) == 2:
+            return httpx.Response(429, headers={"Retry-After": "no float"})
+        if len(requests) == 3:
+            return httpx.Response(429)
+        return httpx.Response(200, content=data)
+
+    client = httpx.Client(transport=httpx.MockTransport(handler))
+
+    result = fetch_with_retry(
+        client, "https://fakeendpoint.com/oai", {}, backoff=0, max_attempts=5
+    )
+
+    assert len(requests) == 4
+    assert result == data
+
+
+def test_fetch_with_retry_raise_max_attemp():
+    requests: list[httpx.Request] = []
+    path_file = FIXTURES / "page_with_token.xml"
+    data = path_file.read_bytes()
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        requests.append(request)
+        if len(requests) < 3:
+            return httpx.Response(429, headers={"Retry-After": "0"})
+        return httpx.Response(200, content=data)
+
+    client = httpx.Client(transport=httpx.MockTransport(handler))
+
+    with pytest.raises(httpx.HTTPStatusError):
+        fetch_with_retry(
+            client, "https://fakeendpoint.com/oai", {}, backoff=0, max_attempts=1
+        )
+
+
 def test_harvest_no_records_match(tmp_path):
     path_file = FIXTURES / "no_records_match.xml"
     data = path_file.read_bytes()
@@ -120,6 +164,69 @@ def test_harvest_no_records_match(tmp_path):
         == 0
     )
     assert not out_dir.exists()
+
+
+def test_harvest_bad_resumption_token(tmp_path):
+    path = Path(tmp_path) / "page_001.xml"
+    path.write_bytes(
+        b"""
+    <OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/">
+    <error code="badResumptionToken">The token is invalid</error></OAI-PMH>
+    """
+    )
+    data = path.read_bytes()
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(422, content=data)
+
+    client = httpx.Client(transport=httpx.MockTransport(handler))
+
+    with pytest.raises(OAIError):
+        harvest(
+            client,
+            "https://fakeendpoint.com/oai",
+            metadata_prefix="oai_dc",
+            set_spec="user-waterlat-gobacit",
+            out_dir=tmp_path,
+            max_records=500,
+            delay=0,
+        )
+
+
+def test_harvest_invalid_xml(tmp_path):
+    def handler(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(200, content=b"invalid xml")
+
+    client = httpx.Client(transport=httpx.MockTransport(handler))
+
+    with pytest.raises(HarvestError):
+        harvest(
+            client,
+            "https://fakeendpoint.com/oai",
+            metadata_prefix="oai_dc",
+            set_spec="user-waterlat-gobacit",
+            out_dir=tmp_path,
+            max_records=500,
+            delay=0,
+        )
+
+
+def test_harvest_transport_error(tmp_path):
+    def handler(request: httpx.Request) -> httpx.Response:
+        raise httpx.ConnectError("connection refused", request=request)
+
+    client = httpx.Client(transport=httpx.MockTransport(handler))
+
+    with pytest.raises(httpx.TransportError):
+        harvest(
+            client,
+            "https://fakeendpoint.com/oai",
+            metadata_prefix="oai_dc",
+            set_spec="user-waterlat-gobacit",
+            out_dir=tmp_path,
+            max_records=500,
+            delay=0,
+        )
 
 
 def test_paging(tmp_path):
