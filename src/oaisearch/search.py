@@ -50,7 +50,7 @@ def search(
 
 
 def format_result(rank: int, result: SearchResult) -> str:
-    creators = ";".join(result.record.creators[:2])
+    creators = "; ".join(result.record.creators[:2])
     lang = "No lang"
     publication_year = "Unknown publication year"
     doi = "Unknown DOI"
@@ -65,5 +65,5 @@ def format_result(rank: int, result: SearchResult) -> str:
     if result.record.doi is not None:
         doi = result.record.doi
     message = f"{rank}. [{result.score:.4f}] {result.record.title}"
-    message += f"({publication_year})\n{creators} - {lang} - {doi}"
+    message += f" ({publication_year})\n{creators} - {lang} - {doi}"
     return message
