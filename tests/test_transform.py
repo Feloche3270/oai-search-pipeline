@@ -51,7 +51,7 @@ def test_parse_page():
         ],
         subjects=["infrastructures", "water politics", "water inequality"],
         publication_year=2020,
-        description="This is the second issue developed by members of the " \
+        description="This is the second issue developed by members of the "
         "WATERLAT-GOBACIT Network’s Thematic Area 10, Water and Violence.",
         doi="10.5281/zenodo.4312898",
         language="spa",
