@@ -97,7 +97,8 @@ def fetch_with_retry(
             reason = str(err)
         print(f"Retrying in {wait}s ({reason})")
         time.sleep(wait)
-    raise RuntimeError("Unreachable")
+    # specifying no cover with: pragma
+    raise RuntimeError("Unreachable")  # pragma: no cover
 
 
 def harvest(

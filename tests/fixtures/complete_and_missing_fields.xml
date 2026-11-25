@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?xml-stylesheet type="text/xsl" href="/static/oai2.xsl"?>
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+    <responseDate>2026-11-20T15:21:10Z</responseDate>
+    <request resumptionToken=".eJyNzdFugjAAheF36TUuFMEhiRe60S5EcINBpTemtBUZRQzgSjS--8geYNm5_vOdO-ilFMAzn5aWazvWAi5c99mxXWiACysl8OYGqDXryh549ykegAeuvexmmg2yU2yYlW3BeDUAAzRyYIIN7L2Tx2qcwpZVB8HBwwA971qlDtV0BRBW19waIcXZMbeWV4EzW6AlFETVr2cE6T5wMnxSRU2VwFG7HnMdQmVx4oQEoSSGpw_iq3mC42aHULye9hKjNNlwwr9yHb-lmtRjyjEMmZmZ1ILHyL8EYqTz5BZvZHPKowwlWzKSYk8vO-Jsi091_nXyWRSUNpEN6kPsLHgNU3lW33sz1cLX1s6HAf23Y_7t6NUKPH4Ahql9OA.awBlZQ.x62n5WglqfSVHvsBIWVv2Hc4Ktk" verb="ListRecords">https://zenodo.org/oai2d</request>
+    <ListRecords>
+        <record>
+            <header>
+            <identifier>oai:zenodo.org:4312898</identifier>
+            <datestamp>2024-07-19T12:35:31Z</datestamp>
+            <setSpec>user-waterlat-gobacit</setSpec>
+            </header>
+            <metadata>
+            <oai_dc:dc xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+                <dc:creator>Castro, Jose Esteban</dc:creator>
+                <dc:creator>Kloster, Karina</dc:creator>
+                <dc:creator>de Morais, Hugo Belarmino</dc:creator>
+                <dc:creator>de Tavira, Ana Pohlenz</dc:creator>
+                <dc:creator>Fracchia Figueiredo, Myriam</dc:creator>
+                <dc:creator>Pelayo Pérez, Mariana Betzabeth</dc:creator>
+                <dc:date>2020-03-31</dc:date>
+                <dc:description>&amp;lt;p&amp;gt;This is the second issue developed by members of the WATERLAT-GOBACIT&amp;nbsp;Network&amp;rsquo;s Thematic Area 10, Water and Violence.</dc:description>
+                <dc:identifier>https://doi.org/10.5281/zenodo.4312898</dc:identifier>
+                <dc:identifier>oai:zenodo.org:4312898</dc:identifier>
+                <dc:language>spa</dc:language>
+                <dc:publisher>Zenodo</dc:publisher>
+                <dc:relation>https://zenodo.org/communities/waterlat-gobacit/</dc:relation>
+                <dc:relation>https://doi.org/10.5281/zenodo.4312897</dc:relation>
+                <dc:rights>info:eu-repo/semantics/openAccess</dc:rights>
+                <dc:rights>Creative Commons Attribution 4.0 International</dc:rights>
+                <dc:rights>https://creativecommons.org/licenses/by/4.0/legalcode</dc:rights>
+                <dc:subject>infrastructures</dc:subject>
+                <dc:subject>water politics</dc:subject>
+                <dc:subject>water inequality</dc:subject>
+                <dc:title>Water politics, violence, and injustice: experiences from Brazil, Guatemala, and Mexico</dc:title>
+                <dc:type>info:eu-repo/semantics/article</dc:type>
+            </oai_dc:dc>
+            </metadata>
+        </record>
+        <record>
+            <header>
+            <identifier>oai:zenodo.org:7508110</identifier>
+            <datestamp>2024-07-15T11:13:22Z</datestamp>
+            <setSpec>user-waterlat-gobacit</setSpec>
+            </header>
+            <metadata>
+            <oai_dc:dc xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+                <dc:publisher>Zenodo</dc:publisher>
+                <dc:relation>https://zenodo.org/communities/waterlat-gobacit/</dc:relation>
+                <dc:relation>https://doi.org/10.5281/zenodo.7508109</dc:relation>
+                <dc:rights>info:eu-repo/semantics/openAccess</dc:rights>
+                <dc:rights>Creative Commons Attribution 4.0 International</dc:rights>
+                <dc:rights>https://creativecommons.org/licenses/by/4.0/legalcode</dc:rights>
+                <dc:title>Administração de bens comuns: governança hídrica em disputa</dc:title>
+                <dc:type>info:eu-repo/semantics/article</dc:type>
+            </oai_dc:dc>
+            </metadata>
+        </record>
+    </ListRecords>
+</OAI-PMH>

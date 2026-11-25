@@ -1,0 +1,28 @@
+---
+name: CI
+on: 
+  push: 
+    branches: [main]
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.12","3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@v7
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install OAI Search Pipeline project
+        run: pip install -e ".[dev]"
+      - name: Running ruff check .
+        run: ruff check .
+      - name: Running ruff format --check .
+        run: ruff format --check .
+      - name: Running mypy src
+        run: mypy src
+      - name: Running pytest
+        run: pytest
