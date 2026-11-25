@@ -170,3 +170,8 @@ Elasticsearch was chosen because its JSON Query DSL makes the query structure ex
 - Per-language analyzers using the `language` field
 - Stream records from disk to Elasticsearch (`load_records` as a generator)
 - Port the indexing and search steps to Solr to compare both engines on the same data.
+
+## LICENSE
+
+MIT, see [LICENSE](LICENSE). The test fixtures contain metadata records harvested
+from Zenodo (WATERLAT-GOBACIT community).
