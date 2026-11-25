@@ -162,7 +162,7 @@ def build_parser() -> argparse.ArgumentParser:
     search_parser.add_argument(
         "--all-words",
         action="store_true",
-        help="Require all words, in any order (default: 67% of them)",
+        help="Require all words, in any order (default: 67%% of them)",
     )
     search_parser.add_argument(
         "--size", type=int, default=10, help="Number of results to show (default: 10)"
